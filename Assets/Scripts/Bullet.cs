@@ -16,9 +16,9 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.gameObject.tag == "Player") {
+		if (coll.gameObject.tag == "Player" || coll.gameObject.tag == "Enemy") {
 			if (gameObject.layer != LayerMask.NameToLayer("playerBullet"))
-				coll.gameObject.GetComponent< Player >().die();
+				coll.gameObject.GetComponent< Entity >().die();
 		} else {
 			GameObject.Destroy(gameObject);
 		}
