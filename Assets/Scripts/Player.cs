@@ -3,17 +3,55 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public	float		Speed = 5F;
+	public	float			Speed = 5F;
 
-	private Animator	anim;
-	private Rigidbody2D	rbody;
-	private GameObject	weapon;
-
+	private Animator		anim;
+	private Rigidbody2D		rbody;
+	private Weapon			weapon;
+	private GameObject		weaponFloor;
+	private SpriteRenderer	attachToBodySprite;
 
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator>();
 		rbody = GetComponent< Rigidbody2D >();
+		attachToBodySprite = GetComponentsInChildren< SpriteRenderer >()[3];
+	}
+
+	void OnTriggerEnter2D(Collider2D coll) {
+		if (coll.gameObject.tag == "Weapon")
+			weaponFloor = coll.gameObject;
+	}
+
+	void OnTriggerExit2D(Collider2D coll) {
+		if (coll.gameObject.tag == "Weapon")
+			weaponFloor = null;
+	}
+
+	void pickWeapon() {
+		if (!weaponFloor)
+			return ;
+		weapon = weaponFloor.GetComponent< Weapon >();
+		if (!weapon.isPickable())
+			return ;
+		attachToBodySprite.sprite = weapon.attachToBodySprite;
+		weaponFloor.SetActive(false);
+	}
+
+	void dropWeapon() {
+		Debug.Log ("drop");
+		weapon.drop(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
+		weapon = null;
+		attachToBodySprite.sprite = null;
+	}
+
+	void fireWeapon() {
+		Debug.Log ("fire");
+		weapon.fire(transform);
+	}
+
+	public void die() {
+
 	}
 
 	// Update is called once per frame
@@ -40,5 +78,13 @@ public class Player : MonoBehaviour {
 		float	angle = Mathf.Atan2(det, dot) * Mathf.Rad2Deg;
 		angle += 180;
 		transform.rotation = Quaternion.Euler(0, 0, angle);
+
+		if (Input.GetMouseButtonDown(0) && weapon)
+			fireWeapon();
+		if (Input.GetMouseButtonDown(1) && weapon)
+			dropWeapon();
+
+		if (Input.GetKeyDown("e") || Input.GetMouseButtonDown(1))
+			pickWeapon();
 	}
 }
