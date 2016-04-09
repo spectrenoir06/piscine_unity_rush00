@@ -10,6 +10,8 @@ public class Player : MonoBehaviour {
 	private Weapon			weapon;
 	private GameObject		weaponFloor;
 	private SpriteRenderer	attachToBodySprite;
+	private Vector2			bulletEmitter;
+	private bool			canShoot;
 
 	// Use this for initialization
 	void Start () {
@@ -33,21 +35,23 @@ public class Player : MonoBehaviour {
 			return ;
 		weapon = weaponFloor.GetComponent< Weapon >();
 		if (!weapon.isPickable())
+		{
+			weapon = null;
 			return ;
+		}
 		attachToBodySprite.sprite = weapon.attachToBodySprite;
-		weaponFloor.SetActive(false);
+		weaponFloor.GetComponent< SpriteRenderer >().enabled = false;
+		weapon.grab(gameObject);
 	}
 
 	void dropWeapon() {
-		Debug.Log ("drop");
 		weapon.drop(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
 		weapon = null;
 		attachToBodySprite.sprite = null;
 	}
 
 	void fireWeapon() {
-		Debug.Log ("fire");
-		weapon.fire(transform);
+		weapon.fire(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
 	}
 
 	public void die() {
@@ -86,5 +90,6 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKeyDown("e") || Input.GetMouseButtonDown(1))
 			pickWeapon();
+		Debug.Log(rbody.velocity);
 	}
 }

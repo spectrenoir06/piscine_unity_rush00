@@ -5,32 +5,60 @@ public class Weapon : MonoBehaviour {
 
 	public Sprite		attachToBodySprite;
 	public GameObject	bullet;
-	public float		fireRate;
-	public Vector2		target;
+	public float		fireIdle = 0.4F;
+	public int			raffaleSize = 1;
+	public float		raffaleRate = 0F;
+	public float		bulletSpeed = 300;
+	public int			ammoNumber = 0;
+	private GameObject	controller;
 
+	private Vector2		target;
 	private bool		pickable = true;
+	private bool		canShoot = true;
 
 	// Use this for initialization
 	void Start () {
 		target = transform.position;
 	}
 
+	public void		grab(GameObject c) {
+		controller = c.transform.FindChild("bulletEmitter").gameObject;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (target != (Vector2)transform.position)
-		{
 			transform.position = Vector2.Lerp((Vector2)transform.position, target, Time.deltaTime * 5);
-		}
 	}
 
 	public bool	isPickable() {
 		return (pickable);
 	}
 
-	public void fire(Transform t) {
-		GameObject b = GameObject.Instantiate(bullet, t.position, t.rotation) as GameObject;
-		b.GetComponent< Rigidbody2D >().AddForce(new Vector2(10, 0));
-		Debug.Log("wepon fire to ");
+	IEnumerator		weaponCanShoot() {
+		yield return new WaitForSeconds(fireIdle);
+		canShoot = true;
+	}
+
+	IEnumerator		shoot(Transform t, Vector2 pos) {
+		for (int i = 0; i < raffaleSize; i++)
+		{
+			GameObject b = GameObject.Instantiate(bullet, controller.transform.position, t.rotation) as GameObject;
+			b.GetComponent< Rigidbody2D >().AddForce((pos - (Vector2)t.position).normalized * bulletSpeed);
+			ammoNumber--;
+			if (ammoNumber == 0)
+				break ;
+			yield return new WaitForSeconds(raffaleRate);
+		}
+	}
+
+
+	public void fire(Transform t, Vector2 pos) {
+		if (!canShoot || ammoNumber == 0)
+			return ;
+		canShoot = false;
+		StartCoroutine(shoot(t, pos));
+		StartCoroutine(weaponCanShoot());
 	}
 
 	IEnumerator		pickableWeapon() {
@@ -42,8 +70,13 @@ public class Weapon : MonoBehaviour {
 		target = pos;
 		gameObject.transform.position = t.position;
 		gameObject.transform.rotation = t.rotation;
-		gameObject.SetActive(true);
+		gameObject.GetComponent< SpriteRenderer >().enabled = true;
 		pickable = false;
 		StartCoroutine(pickableWeapon());
+	}
+
+	void OnTriggerEnter2D(Collider2D coll) {
+		if (coll.gameObject.layer == LayerMask.NameToLayer("wall"))
+			target = transform.position;
 	}
 }
