@@ -22,6 +22,7 @@ public class Weapon : MonoBehaviour {
 	}
 
 	public void		grab(GameObject c) {
+		gameManager.playGetWeapon();
 		controller = c.transform.FindChild("bulletEmitter").gameObject;
 	}
 
@@ -43,7 +44,7 @@ public class Weapon : MonoBehaviour {
 	IEnumerator		shoot(Transform t, Vector2 pos) {
 		for (int i = 0; i < raffaleSize; i++)
 		{
-			GameObject b = GameObject.Instantiate(bullet, controller.transform.position, t.rotation) as GameObject;
+			GameObject b = GameObject.Instantiate(bullet, controller.transform.position, Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, t.eulerAngles.z - 90)) as GameObject;
 			b.GetComponent< Rigidbody2D >().AddForce((pos - (Vector2)t.position).normalized * bulletSpeed);
 			ammoNumber--;
 			if (ammoNumber == 0)
@@ -54,7 +55,12 @@ public class Weapon : MonoBehaviour {
 
 
 	public void fire(Transform t, Vector2 pos) {
-		if (!canShoot || ammoNumber == 0)
+		if (ammoNumber == 0)
+		{
+			gameManager.playDryFire();
+			return ;
+		}
+		if (!canShoot)
 			return ;
 		canShoot = false;
 		StartCoroutine(shoot(t, pos));

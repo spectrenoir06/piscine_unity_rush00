@@ -7,10 +7,7 @@ public class Enemy : MonoBehaviour {
 
 	private Entity			entity;
 	private Player			player;
-
-	void OntriggerEnter2D(Collider2D coll) {
-
-	}
+	public bool				folow = false;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +15,11 @@ public class Enemy : MonoBehaviour {
 		entity = GetComponent< Entity >();
 		entity.setWeapon(weapon.GetComponent< Weapon >());
 	}
-	
+
+	bool playerIsVisible() {
+		return (true);
+	}
+
 	// Update is called once per frame
 	void Update () {
 		Debug.DrawLine(transform.position, player.gameObject.transform.position);
@@ -30,6 +31,28 @@ public class Enemy : MonoBehaviour {
 		if (cross.z > 0)
 			angle = 360 - angle;
 		transform.rotation = Quaternion.Euler(0, 0, -angle);
+//		Debug.Log(transform.eulerAngles.z - angle);
+//		if (transform.eulerAngles.z - angle > 60 && transform.eulerAngles.z < -60)
+//			Debug.Log ("View !");
+
+		if (folow && playerIsVisible())
+			entity.fireWeapon(transform, player.transform.position);
 	//	entity.fireWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
+	}
+
+	void FixedUpdate() {
+		if (!folow)
+			return ;
+		Vector2		mouvement;
+
+		mouvement = player.transform.position - transform.position;
+		mouvement = mouvement / mouvement.magnitude;
+
+		if (mouvement != Vector2.zero)
+			entity.anim.SetBool("isWalking", true);
+		else
+			entity.anim.SetBool("isWalking", false);
+
+		entity.rbody.transform.position += (Vector3)(mouvement * entity.Speed * Time.deltaTime);
 	}
 }

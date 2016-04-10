@@ -4,6 +4,7 @@ using System.Collections;
 public class Bullet : MonoBehaviour {
 
 	public float		lifeTime = 2;
+	public AudioClip	sound;
 
 	IEnumerator	destroyAmmo() {
 		yield return new WaitForSeconds(lifeTime);
@@ -12,12 +13,17 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		gameManager.playClip(sound, 1);
 		StartCoroutine(destroyAmmo());
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.gameObject.tag == "Player" || coll.gameObject.tag == "Enemy") {
+		Debug.Log (coll.gameObject.tag);
+		if (coll.gameObject.tag == "Player") {
 			if (gameObject.layer != LayerMask.NameToLayer("playerBullet"))
+				coll.gameObject.GetComponent< Entity >().die();
+		} else if (coll.gameObject.tag == "Enemy") {
+			if (gameObject.layer != LayerMask.NameToLayer("EnemyBullet"))
 				coll.gameObject.GetComponent< Entity >().die();
 		} else {
 			GameObject.Destroy(gameObject);
