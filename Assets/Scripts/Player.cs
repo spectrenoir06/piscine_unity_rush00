@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	Entity			entity;
+	public EnemyManager		em;
+
+	private Entity			entity;
 
 	void	Start() {
 		entity = GetComponent< Entity >();
@@ -38,7 +40,10 @@ public class Player : MonoBehaviour {
 		transform.rotation = Quaternion.Euler(0, 0, angle);
 
 		if (Input.GetMouseButtonDown(0) && entity.weapon)
+		{
 			entity.fireWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
+			em.playerFire();
+		}
 		if (Input.GetMouseButtonDown(1) && entity.weapon)
 			entity.dropWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
 

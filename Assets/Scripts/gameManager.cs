@@ -7,6 +7,7 @@ public class gameManager : MonoBehaviour {
 	public AudioClip				getWeapon;
 	public AudioClip				dryFire;
 
+	static public Vector2			playerDoorPosition;
 	static private AudioClip		deathClip;
 	static private AudioClip		dryFireClip;
 	static private AudioClip		getWeaponClip;
@@ -36,11 +37,11 @@ public class gameManager : MonoBehaviour {
 	void Start () {
 		deathClip = death;
 		getWeaponClip = getWeapon;
+		dryFireClip = dryFire;
 		ads = GetComponent< AudioSource >();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 }
