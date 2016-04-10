@@ -16,6 +16,8 @@ public class EndUI : MonoBehaviour {
 	}
 
 	public void onBackToMenuPressed() {
+		endPanel.SetActive(false);
+		gameManager.finished = false;
 		Application.LoadLevel("TitleScreen");
 	}
 
