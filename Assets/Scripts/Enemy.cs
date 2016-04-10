@@ -147,7 +147,6 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void OnDisable() {
-		Debug.Log ("removed event listener");
 		em.OnPlayerFire -= PlayerFireListener;
 	}
 

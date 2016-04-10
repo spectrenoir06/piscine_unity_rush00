@@ -8,6 +8,8 @@ public class gameUI : MonoBehaviour {
 	public AudioClip	loose_ac;
 	public Text			endText;
 	public GameObject	endPanel;
+	public Text			WeaponName;
+	public Text			WeaponAmmo;
 
 	public static gameUI	gui;
 
@@ -42,5 +44,20 @@ public class gameUI : MonoBehaviour {
 	void Update () {
 		if (gameManager.finished)
 			endPanel.SetActive(true);
+		else {
+
+			Weapon	w = gameManager.currentPlayerWeapon;
+			if (w)
+			{
+				WeaponName.text = w.gameObject.name;
+				if (w.ammoNumber > 20000000)
+					WeaponAmmo.text = "INFINITY";
+				else
+					WeaponAmmo.text = w.ammoNumber.ToString() + " AMMO";
+			} else {
+				WeaponName.text = "NO WEAPON";
+				WeaponAmmo.text = "";
+			}
+		}
 	}
 }

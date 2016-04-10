@@ -3,6 +3,8 @@ using System.Collections;
 
 public class EndUI : MonoBehaviour {
 
+	public GameObject	endPanel;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -14,12 +16,13 @@ public class EndUI : MonoBehaviour {
 	}
 
 	public void onBackToMenuPressed() {
-		Debug.Log ("back pressed ");
 		Application.LoadLevel("TitleScreen");
 	}
 
 	public void onRestartPressed() { 
-		Debug.Log ("restart pressed ");
-		Application.LoadLevel("level1");
+		endPanel.SetActive(false);
+		gameManager.finished = false;
+		Application.UnloadLevel(Application.loadedLevelName);
+		Application.LoadLevel(Application.loadedLevelName);
 	}
 }

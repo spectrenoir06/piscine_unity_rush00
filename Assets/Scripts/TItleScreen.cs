@@ -6,8 +6,8 @@ public class TItleScreen : MonoBehaviour {
 	public GameObject	header;
 	public GameObject	effelImage;
 
-	private float		rotation = 0.5F;
-	private float		rotateDest = 15;
+//	private float		rotation = 0.5F;
+//	private float		rotateDest = 15;
 	private float	 	scaleUP = 1.03F;
 
 	// Use this for initialization

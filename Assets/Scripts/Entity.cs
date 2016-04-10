@@ -25,6 +25,9 @@ public class Entity : MonoBehaviour {
 		attachToBodySprite = GetComponentsInChildren< SpriteRenderer >()[3];
 	}
 
+	void Update() {
+	}
+
 	void FixedUpdate() {
 		rbody.velocity = Vector2.zero;
 	}
@@ -41,6 +44,8 @@ public class Entity : MonoBehaviour {
 
 	public void setWeapon(Weapon w) {
 		weapon = w;
+		if (GetComponent< Player >())
+			gameManager.currentPlayerWeapon = weapon;
 		if (!attachToBodySprite)
 			attachToBodySprite = GetComponentsInChildren< SpriteRenderer >()[3];
 		attachToBodySprite.sprite = weapon.attachToBodySprite;
@@ -63,6 +68,8 @@ public class Entity : MonoBehaviour {
 	public void dropWeapon(Transform t, Vector2 pos) {
 		weapon.drop(t, pos);
 		weapon = null;
+		if (GetComponent< Player >())
+			gameManager.currentPlayerWeapon = null;
 		attachToBodySprite.sprite = null;
 	}
 
