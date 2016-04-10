@@ -82,7 +82,6 @@ public class Entity : MonoBehaviour {
 
 	public void die() {
 		gameManager.playDeath();
-		Debug.Log (EnemyManager.enemyCount);
 		if (GetComponent< Player >())
 			gameUI.gui.loose();
 		else if (GetComponent< Enemy >() && EnemyManager.enemyCount == 1)

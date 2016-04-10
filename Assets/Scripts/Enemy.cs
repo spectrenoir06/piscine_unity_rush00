@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-
 
 public class Enemy : MonoBehaviour {
 
-	private GameObject		weapon;
-	public List<GameObject>	weapons = new List<GameObject>();
+	public GameObject		weapon;
 	public float			fireIdle = 1F;
 	public Vector2[]		path;
 
@@ -20,7 +17,6 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		weapon = weapons[Random.Range (0, weapons.Count)];
 		instanciatedWeapon = GameObject.Instantiate(weapon, transform.position, transform.rotation) as GameObject;
 		instanciatedWeapon.GetComponent< SpriteRenderer >().enabled = false;
 		player = GameObject.Find("Player").GetComponent< Player >();
@@ -37,9 +33,8 @@ public class Enemy : MonoBehaviour {
 	void Update () {
 		if (!player || gameManager.finished)
 			return ;
-		//Debug.DrawLine(transform.position, player.gameObject.transform.position);
 
-		Debug.DrawRay(transform.position, player.gameObject.transform.position - transform.position);
+	//	Debug.DrawRay(transform.position, player.gameObject.transform.position - transform.position);
 		RaycastHit2D[] hit =  Physics2D.LinecastAll(transform.position, player.gameObject.transform.position, 1 << LayerMask.NameToLayer("entity") | 1 << LayerMask.NameToLayer("wall"));
 
 		foreach (var h in hit) {
@@ -53,19 +48,6 @@ public class Enemy : MonoBehaviour {
 				break ;
 			}
 		}
-/*		if (hit[0].collider.IsTouchingLayers(LayerMask.NameToLayer("entity")))
-			seePlayer = true;
-		else
-			seePlayer = false;*/
-/*		if (hit.collider.gameObject.tag == "player")
-			seePlayer = true;
-		else
-			seePlayer = false;*/
-
-//		transform.rotation = Quaternion.Euler(0, 0, -angle);
-//		Debug.Log(transform.eulerAngles.z - angle);
-//		if (transform.eulerAngles.z - angle > 60 && transform.eulerAngles.z < -60)
-//			Debug.Log ("View !");
 
 		if (folow && canShoot && seePlayer)
 		{
@@ -73,7 +55,6 @@ public class Enemy : MonoBehaviour {
 			canShoot = false;
 		}
 		StartCoroutine(enemyCanShoot());
-	//	entity.fireWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
 	}
 
 	void OnTriggerStay2D(Collider2D coll) {
