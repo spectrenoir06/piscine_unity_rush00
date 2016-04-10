@@ -14,10 +14,10 @@ public class EndUI : MonoBehaviour {
 	}
 
 	public void onBackToMenuPressed() {
-
+		Application.LoadLevel("TitleScreen");
 	}
 
 	public void onRestartPressed() { 
-
+		Application.LoadLevel("level1");
 	}
 }

@@ -19,11 +19,11 @@ public class BackgroundColor : MonoBehaviour {
 	void Start () {
 		index = 0;
 		colorTable[0] = new Color(0.5F, 0.7F, 0);
-		colorTable[1] = new Color(0.6F, 1, 1);
-		colorTable[2] = new Color(1, 0.2F, 1);
+		colorTable[1] = new Color(0.6F, 1, 0.3F);
+		colorTable[2] = new Color(1, 1, 0);
 		colorTable[3] = new Color(0.4F, 0.8F, 1);
-		colorTable[4] = new Color(0.8F, 0, 1);
-		colorTable[5] = new Color(0, 0.9F, 0.2F);
+		colorTable[4] = new Color(0.8F, 0.5F, 1);
+		colorTable[5] = new Color(1, 0.8F, 0);
 		colorTable[6] = new Color(0.2F, 0.5F, 0);
 		cam = GetComponent< Camera >();
 		StartCoroutine(incrementIndex());

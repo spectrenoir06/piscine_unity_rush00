@@ -130,5 +130,7 @@ public class Weapon : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.gameObject.layer == LayerMask.NameToLayer("wall"))
 			target = transform.position;
+		if (gameObject.name == "S-Saber" && coll.gameObject.layer == LayerMask.NameToLayer("entity") && pickable == false && coll.gameObject.tag != "Player")
+			coll.gameObject.GetComponent< Entity >().die();
 	}
 }
