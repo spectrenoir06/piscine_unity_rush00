@@ -38,7 +38,7 @@ public class Player : MonoBehaviour {
 		transform.rotation = Quaternion.Euler(0, 0, angle);
 
 		if (Input.GetMouseButtonDown(0) && entity.weapon)
-			entity.fireWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
+			entity.fireWeapon(transform, Entity.Target.Mouse);
 		if (Input.GetMouseButtonDown(1) && entity.weapon)
 			entity.dropWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
 
