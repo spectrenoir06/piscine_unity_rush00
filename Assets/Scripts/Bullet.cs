@@ -13,7 +13,10 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameManager.playClip(sound, 1);
+		if (gameObject.tag == "gnomeBullet")
+			GetComponent< gnomeGun >().playRandomSounds();
+		else
+			gameManager.playClip(sound, 1);
 		StartCoroutine(destroyAmmo());
 	}
 
