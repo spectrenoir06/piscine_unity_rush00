@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour {
 
 	public GameObject		weapon;
+	public List<GameObject>		weapons = new List<GameObject>();
 	public float			fireIdle = 1F;
 	public Vector2[]		path;
 
@@ -27,6 +29,7 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		weapon = weapons [Random.Range (0, weapons.Count)];
 		instanciatedWeapon = GameObject.Instantiate(weapon, transform.position, transform.rotation) as GameObject;
 		instanciatedWeapon.GetComponent< SpriteRenderer >().enabled = false;
 		player = GameObject.Find("Player").GetComponent< Player >();
