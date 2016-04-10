@@ -76,9 +76,9 @@ public class Weapon : MonoBehaviour {
 				break;
 			}
 
+			if (!t || !bullet || !controller)
+				break ;
 			GameObject b = GameObject.Instantiate(bullet, controller.transform.position, Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, t.eulerAngles.z - 90)) as GameObject;
-			if (!b)
-				continue;
 			b.layer = layer;
 			b.GetComponent< Rigidbody2D >().AddForce((pos - (Vector2)t.position).normalized * bulletSpeed);
 			if (layer != LayerMask.NameToLayer("enemyBullet"))

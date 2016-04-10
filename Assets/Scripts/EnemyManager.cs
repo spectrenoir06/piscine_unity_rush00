@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	public void	playerFire() {
-		if (enemies.Count != 0)
+		if (enemies.Count <= 0)
 			OnPlayerFire();
 	}
 
