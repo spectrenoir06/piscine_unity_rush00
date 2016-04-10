@@ -5,6 +5,7 @@ public class Bullet : MonoBehaviour {
 
 	public float		lifeTime = 2;
 	public AudioClip	sound;
+	public float		power = 0.15F;
 
 	IEnumerator	destroyAmmo() {
 		yield return new WaitForSeconds(lifeTime);
@@ -16,7 +17,7 @@ public class Bullet : MonoBehaviour {
 		if (gameObject.tag == "gnomeBullet")
 			GetComponent< gnomeGun >().playRandomSounds();
 		else
-			gameManager.playClip(sound, 0.15F);
+			gameManager.playClip(sound, power);
 		StartCoroutine(destroyAmmo());
 	}
 
