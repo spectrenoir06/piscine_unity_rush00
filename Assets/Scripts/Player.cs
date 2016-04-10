@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public EnemyManager		em;
+	public float			localSpeed = 2;
 
 	private Entity			entity;
 
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour {
 		else
 			entity.anim.SetBool("isWalking", false);
 
-		entity.rbody.MovePosition (entity.rbody.transform.position + (Vector3)(mouvement * entity.Speed / 100));
+		entity.rbody.MovePosition (entity.rbody.transform.position + (Vector3)(mouvement * localSpeed * entity.Speed / 100));
 
 		Vector2		mouse;
 		
