@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour {
 
 		if (folow && canShoot && seePlayer)
 		{
-			entity.fireWeapon(transform, player.transform.position);
+			entity.fireWeapon(transform, Entity.Target.Player);
 			canShoot = false;
 		}
 		StartCoroutine(enemyCanShoot());

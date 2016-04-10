@@ -13,6 +13,11 @@ public class Entity : MonoBehaviour {
 	private Vector2			bulletEmitter;
 	private bool			canShoot;
 
+	public enum Target{
+		Mouse = 1,
+		Player = 2
+	};
+
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator>();
@@ -59,6 +64,13 @@ public class Entity : MonoBehaviour {
 		weapon.drop(t, pos);
 		weapon = null;
 		attachToBodySprite.sprite = null;
+	}
+
+	public void fireWeapon(Transform t, Entity.Target target) {
+		if (GetComponent< Enemy >())
+			weapon.fire(t, target, LayerMask.NameToLayer("enemyBullet"));
+		else
+			weapon.fire (t, target, LayerMask.NameToLayer("playerBullet"));
 	}
 
 	public void fireWeapon(Transform t, Vector2 pos) {

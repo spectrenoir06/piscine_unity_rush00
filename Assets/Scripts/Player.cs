@@ -41,8 +41,8 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown(0) && entity.weapon)
 		{
-			entity.fireWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
 			em.playerFire();
+			entity.fireWeapon(transform, Entity.Target.Mouse);
 		}
 		if (Input.GetMouseButtonDown(1) && entity.weapon)
 			entity.dropWeapon(transform, Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition));
