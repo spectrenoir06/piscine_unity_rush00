@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour {
 	public float		fireIdle = 0.4F;
 	public int			raffaleSize = 1;
 	public float		raffaleRate = 0F;
-	public float		bulletSpeed = 300;
+	public float		bulletSpeed = 400;
 	public int			ammoNumber = 0;
 	private GameObject	controller;
 	private Player		player;
@@ -19,6 +19,7 @@ public class Weapon : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		bulletSpeed *= 2;
 		target = transform.position;
 		player = GameObject.Find("Player").GetComponent< Player >();
 	}
@@ -76,6 +77,8 @@ public class Weapon : MonoBehaviour {
 			}
 
 			GameObject b = GameObject.Instantiate(bullet, controller.transform.position, Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, t.eulerAngles.z - 90)) as GameObject;
+			if (!b)
+				continue;
 			b.layer = layer;
 			b.GetComponent< Rigidbody2D >().AddForce((pos - (Vector2)t.position).normalized * bulletSpeed);
 			if (layer != LayerMask.NameToLayer("enemyBullet"))
