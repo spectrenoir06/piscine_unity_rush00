@@ -29,7 +29,7 @@ public class Entity : MonoBehaviour {
 		rbody.velocity = Vector2.zero;
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
+	void OnTriggerStay2D(Collider2D coll) {
 		if (coll.gameObject.tag == "Weapon")
 			weaponFloor = coll.gameObject;
 	}
@@ -82,6 +82,12 @@ public class Entity : MonoBehaviour {
 
 	public void die() {
 		gameManager.playDeath();
-		GameObject.Destroy(gameObject);
+		Debug.Log (EnemyManager.enemyCount);
+		if (GetComponent< Player >())
+			gameUI.gui.loose();
+		else if (GetComponent< Enemy >() && EnemyManager.enemyCount == 1)
+			gameUI.gui.win();
+		else
+			GameObject.Destroy(gameObject);
 	}
 }

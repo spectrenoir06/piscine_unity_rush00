@@ -12,6 +12,8 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		if (gameManager.finished)
+			return ;
 		Vector2		mouvement;
 
 		mouvement.x = Input.GetAxis("Horizontal");
@@ -27,6 +29,8 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (gameManager.finished)
+			return ;
 
 		Vector2		mouse;
 

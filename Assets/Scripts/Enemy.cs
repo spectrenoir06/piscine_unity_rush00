@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!player)
+		if (!player || gameManager.finished)
 			return ;
 		//Debug.DrawLine(transform.position, player.gameObject.transform.position);
 
@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if (!folow || !player)
+		if (!folow || !player || gameManager.finished)
 			return ;
 		Vector2		mouvement;
 
@@ -115,6 +115,11 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void OnDisable() {
+		Debug.Log ("removed event listener");
 		em.OnPlayerFire -= PlayerFireListener;
+	}
+
+	void OnDestroy() {
+		em.enemies.Remove(gameObject);
 	}
 }

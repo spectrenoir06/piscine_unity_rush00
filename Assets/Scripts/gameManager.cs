@@ -8,6 +8,7 @@ public class gameManager : MonoBehaviour {
 	public AudioClip				dryFire;
 
 	static public Vector2			playerDoorPosition;
+	static public bool				finished = false;
 	static private AudioClip		deathClip;
 	static private AudioClip		dryFireClip;
 	static private AudioClip		getWeaponClip;
