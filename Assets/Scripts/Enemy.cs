@@ -15,6 +15,16 @@ public class Enemy : MonoBehaviour {
 	private bool			seePlayer;
 	private EnemyManager	em;
 
+	private	Vector2			pathTarget;
+	private int				pathIndex;
+
+	void OnDrawGizmos() {
+		Gizmos.color = Color.blue;
+		if (path.Length > 1)
+			for (int i = 0; i < path.Length - 1; i++)
+				Gizmos.DrawLine(path[i], path[i + 1]);
+	}
+
 	// Use this for initialization
 	void Start () {
 		instanciatedWeapon = GameObject.Instantiate(weapon, transform.position, transform.rotation) as GameObject;
@@ -22,6 +32,9 @@ public class Enemy : MonoBehaviour {
 		player = GameObject.Find("Player").GetComponent< Player >();
 		entity = GetComponent< Entity >();
 		entity.setWeapon(instanciatedWeapon.GetComponent< Weapon >());
+		pathIndex = 1;
+		if (path.Length > 1)
+			pathTarget = path[0];
 	}
 
 	IEnumerator	 enemyCanShoot() {
@@ -64,7 +77,41 @@ public class Enemy : MonoBehaviour {
 			folow = false;
 	}
 
+	bool	cmpRoundPosition(Vector2 p1, Vector2 p2) {
+		Vector2	_p1;
+		Vector2	_p2;
+
+		_p1.x = Mathf.Round(p1.x * 5f) / 5f;
+		_p1.y = Mathf.Round(p1.y * 5f) / 5f;
+		_p2.x = Mathf.Round(p2.x * 5f) / 5f;
+		_p2.y = Mathf.Round(p2.y * 5f) / 5f;
+		return (_p1 == _p2);
+	}
+
+	void	moveToTarget() {
+		Vector2 mouvement = pathTarget - (Vector2)transform.position;
+		mouvement /= mouvement.magnitude;
+
+		if (cmpRoundPosition((Vector2)transform.position, pathTarget)) {
+			pathTarget = path[pathIndex++ % path.Length];
+		}
+
+		entity.anim.SetBool("isWalking", true);
+
+		entity.rbody.transform.position += (Vector3)(mouvement * entity.Speed * Time.deltaTime);
+
+		Vector2		playerPos = ((Vector2)transform.position - pathTarget).normalized;
+		float angle = Vector2.Angle(Vector2.up, playerPos);
+		Vector3 cross = Vector3.Cross(Vector3.up, (Vector3)playerPos);
+		
+		if (cross.z > 0)
+			angle = 360 - angle;
+		transform.rotation = Quaternion.Euler(0, 0, -angle);
+	}
+
 	void FixedUpdate() {
+		if (path.Length > 1 && !folow)
+			moveToTarget();
 		if (!folow || !player || gameManager.finished)
 			return ;
 		Vector2		mouvement;
