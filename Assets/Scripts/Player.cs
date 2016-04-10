@@ -44,6 +44,5 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKeyDown("e") || Input.GetMouseButtonDown(1))
 			entity.pickWeapon();
-		Debug.Log(entity.rbody.velocity);
 	}
 }

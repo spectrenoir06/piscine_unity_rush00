@@ -23,6 +23,8 @@ public class Entity : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.gameObject.tag == "Weapon")
 			weaponFloor = coll.gameObject;
+		if (coll.gameObject.tag == "Player")
+			gameObject.GetComponent< Enemy >().folow = true;
 	}
 
 	void OnTriggerExit2D(Collider2D coll) {
@@ -62,6 +64,7 @@ public class Entity : MonoBehaviour {
 	}
 
 	public void die() {
-
+		gameManager.playDeath();
+		GameObject.Destroy(gameObject);
 	}
 }
