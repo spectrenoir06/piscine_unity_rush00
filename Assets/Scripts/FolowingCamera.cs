@@ -2,12 +2,12 @@
 using System.Collections;
 
 public class FolowingCamera : MonoBehaviour {
-
-	public GameObject		player;
+		
+	private Player		player;
 
 	// Use this for initialization
 	void Start () {
-	
+		player = GameObject.Find("Player").GetComponent< Player >();
 	}
 	
 	// Update is called once per frame

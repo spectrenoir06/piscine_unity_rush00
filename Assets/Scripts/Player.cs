@@ -24,24 +24,33 @@ public class Player : MonoBehaviour {
 		else
 			entity.anim.SetBool("isWalking", false);
 
-		entity.rbody.transform.position += (Vector3)(mouvement * entity.Speed / 100);
-	}
+//		entity.rbody.transform.position += (Vector3)(mouvement * entity.Speed / 100);
 
 	// Update is called once per frame
 	void Update () {
 		if (gameManager.finished)
 			return ;
 
-		Vector2		mouse;
+		entity.rbody.MovePosition (entity.rbody.transform.position + (Vector3)(mouvement * entity.Speed / 100));
 
+		Vector2		mouse;
+		
 		mouse = (Vector2)Camera.main.ScreenToWorldPoint((Vector2)Input.mousePosition);
 		mouse -= (Vector2)transform.position;
-
+		
 		float	dot = 0 + 1 * mouse.y;
 		float	det = 0 - 1 * mouse.x;
 		float	angle = Mathf.Atan2(det, dot) * Mathf.Rad2Deg;
 		angle += 180;
-		transform.rotation = Quaternion.Euler(0, 0, angle);
+		
+//		entity.transform.rotation = Quaternion.Euler(0, 0, angle);//MoveRotation(angle);
+		entity.rbody.MoveRotation(angle);
+		//		transform.rotation = Quaternion.Euler(0, 0, angle);
+
+	}
+
+	// Update is called once per frame
+	void Update () {
 
 		if (Input.GetMouseButtonDown(0) && entity.weapon)
 		{
@@ -53,5 +62,6 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKeyDown("e") || Input.GetMouseButtonDown(1))
 			entity.pickWeapon();
+//		entity.rbody.velocity = Vector2.zero;
 	}
 }
