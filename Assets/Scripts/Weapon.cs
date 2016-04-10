@@ -30,8 +30,11 @@ public class Weapon : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (target != (Vector2)transform.position)
-			transform.position = Vector2.Lerp((Vector2)transform.position, target, Time.deltaTime * 5);
+		if (target != (Vector2)transform.position) {
+			transform.position = Vector2.Lerp ((Vector2)transform.position, target, Time.deltaTime * 5);
+			float l = Vector2.Distance(target, (Vector2)transform.position);
+			transform.Rotate(Vector3.back * Time.deltaTime * l * 500);
+		}
 	}
 
 	public bool	isPickable() {
