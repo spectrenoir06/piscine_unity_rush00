@@ -41,12 +41,14 @@ public class Weapon : MonoBehaviour {
 		canShoot = true;
 	}
 
-	IEnumerator		shoot(Transform t, Vector2 pos) {
+	IEnumerator		shoot(Transform t, Vector2 pos, int layer) {
 		for (int i = 0; i < raffaleSize; i++)
 		{
 			GameObject b = GameObject.Instantiate(bullet, controller.transform.position, Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, t.eulerAngles.z - 90)) as GameObject;
+			b.layer = layer;
 			b.GetComponent< Rigidbody2D >().AddForce((pos - (Vector2)t.position).normalized * bulletSpeed);
-			ammoNumber--;
+			if (layer != LayerMask.NameToLayer("enemyBullet"))
+				ammoNumber--;
 			if (ammoNumber == 0)
 				break ;
 			yield return new WaitForSeconds(raffaleRate);
@@ -54,8 +56,8 @@ public class Weapon : MonoBehaviour {
 	}
 
 
-	public void fire(Transform t, Vector2 pos) {
-		if (ammoNumber == 0)
+	public void fire(Transform t, Vector2 pos, int layer) {
+		if (ammoNumber <= 0)
 		{
 			gameManager.playDryFire();
 			return ;
@@ -63,7 +65,7 @@ public class Weapon : MonoBehaviour {
 		if (!canShoot)
 			return ;
 		canShoot = false;
-		StartCoroutine(shoot(t, pos));
+		StartCoroutine(shoot(t, pos, layer));
 		StartCoroutine(weaponCanShoot());
 	}
 

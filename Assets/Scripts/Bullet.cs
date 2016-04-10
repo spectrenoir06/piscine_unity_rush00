@@ -16,18 +16,23 @@ public class Bullet : MonoBehaviour {
 		if (gameObject.tag == "gnomeBullet")
 			GetComponent< gnomeGun >().playRandomSounds();
 		else
-			gameManager.playClip(sound, 1);
+			gameManager.playClip(sound, 0.1F);
 		StartCoroutine(destroyAmmo());
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		Debug.Log (coll.gameObject.tag);
 		if (coll.gameObject.tag == "Player") {
 			if (gameObject.layer != LayerMask.NameToLayer("playerBullet"))
+			{
 				coll.gameObject.GetComponent< Entity >().die();
+				GameObject.Destroy(gameObject);
+			}
 		} else if (coll.gameObject.tag == "Enemy") {
-			if (gameObject.layer != LayerMask.NameToLayer("EnemyBullet"))
+			if (gameObject.layer != LayerMask.NameToLayer("enemyBullet") && coll.GetType() != typeof(PolygonCollider2D))
+			{
 				coll.gameObject.GetComponent< Entity >().die();
+				GameObject.Destroy(gameObject);
+			}
 		} else {
 			GameObject.Destroy(gameObject);
 		}

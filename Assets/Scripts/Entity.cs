@@ -20,6 +20,10 @@ public class Entity : MonoBehaviour {
 		attachToBodySprite = GetComponentsInChildren< SpriteRenderer >()[3];
 	}
 
+	void FixedUpdate() {
+		rbody.velocity = Vector2.zero;
+	}
+
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.gameObject.tag == "Weapon")
 			weaponFloor = coll.gameObject;
@@ -60,7 +64,10 @@ public class Entity : MonoBehaviour {
 	}
 
 	public void fireWeapon(Transform t, Vector2 pos) {
-		weapon.fire(t, pos);
+		if (GetComponent< Enemy >())
+			weapon.fire(t, pos, LayerMask.NameToLayer("enemyBullet"));
+		else
+			weapon.fire (t, pos, LayerMask.NameToLayer("playerBullet"));
 	}
 
 	public void die() {
